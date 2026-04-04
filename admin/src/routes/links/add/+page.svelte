@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ActionData } from './$types';
-	import { linkConstraints } from '$/routes/linkConstraints.ts';
+	import { linkConstraints } from '$/routes/links/linkConstraints.ts';
 
 	interface Props {
 		form: ActionData;
