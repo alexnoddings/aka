@@ -2,8 +2,7 @@ export async function recordRedirectEvent(
 	request: Request<unknown, IncomingRequestCfProperties>,
 	env: Env,
 	linkId: string,
-	requestUrl: string,
-	destinationUrl: string
+	requestUrl: string
 ) {
 	const queryParams = new URL(requestUrl).searchParams;
 
@@ -32,7 +31,6 @@ export async function recordRedirectEvent(
 			id,
 			linkId,
 			now,
-			destinationUrl,
 			request.headers.get('Referer'),
 			request.headers.get('User-Agent'),
 			request.cf?.country || null,

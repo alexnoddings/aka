@@ -59,8 +59,7 @@ async function handleRedirectRequest(
 		request,
 		env,
 		link.id,
-		request.url,
-		link.destinationUrl
+		request.url
 	);
 	ctx.waitUntil(recordEventPromise);
 
