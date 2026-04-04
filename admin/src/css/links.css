@@ -1,28 +1,28 @@
 .link {
-	display:flex;
-	flex-direction:row;
-	align-items:center;
-	gap:calc(var(--spacing) / 2);
-	text-decoration:none;
-	text-underline-offset:var(--spacing)
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: calc(var(--spacing) / 2);
+	text-decoration: none;
+	text-underline-offset: var(--spacing);
 }
 .link:hover,
 .link:focus {
-	text-decoration:underline
+	text-decoration: underline;
 }
 .link:focus {
-	outline:2px solid var(--color-primary-dark)
+	outline: 2px solid var(--color-primary-dark);
 }
 .link.link--info {
-	color:var(--color-primary)
+	color: var(--color-primary);
 }
 .link.link--info:hover,
 .link.link--info:focus {
-	color:var(--color-primary-dark)
+	color: var(--color-primary-dark);
 }
 .link.link--danger {
-	color:var(--color-error)
+	color: var(--color-error);
 }
 .link svg {
-	margin-bottom:-1px
+	margin-bottom: -1px;
 }
