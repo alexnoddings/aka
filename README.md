@@ -1,3 +1,5 @@
+![aka logo](admin/static/favicon.svg)
+
 # aka
 
 aka is a lightweight personal URL shortener.
