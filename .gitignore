@@ -1,9 +1,10 @@
 # NPM
 node_modules/
 
-# Wrangler
+# Cloudflare
 .wrangler/
-worker-configuration.d.ts
+wrangler.jsonc
+cloudflare.d.ts
 
 # Svelte
 .svelte-kit

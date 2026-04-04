@@ -1,0 +1,25 @@
+{
+	"name": "aka",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"init": "npm run gen && npm run setup-d1",
+		"setup-d1": "wrangler d1 execute aka --local --file=../migrations/000-schema.sql",
+		"gen": "wrangler types ./src/cloudflare.d.ts",
+		"dev": "wrangler dev --port 8777",
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write .",
+		"deploy": "wrangler deploy"
+	},
+	"devDependencies": {
+		"@eslint/compat": "^2.0.2",
+		"@eslint/js": "^9.39.2",
+		"@types/node": "^25.5.0",
+		"eslint": "^9.39.4",
+		"eslint-config-prettier": "^10.1.8",
+		"prettier": "^3.8.1",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.54.0",
+		"wrangler": "^4.80.0"
+	}
+}

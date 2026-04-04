@@ -37,15 +37,25 @@ architecture-beta
 
 ### First-time setup
 
+Web needs a `wrangler.jsonc` file, based on the `wrangler.jsonc.example` file.
+
 ```bash
-# tba
-# - init db with schema
+cd web
+npm install
+# init:
+# - sets up local D1 database schema
+# - generates TS types
+npm run init
+npm run gen
 ```
 
 ### Running web
 
+Web is hosted locally at http://localhost:8777/.
+
 ```bash
-# tba
+cd web
+npm run dev
 ```
 
 ### Running admin
