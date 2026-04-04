@@ -1,0 +1,9 @@
+# NPM
+node_modules/
+
+# Wrangler
+.wrangler/
+worker-configuration.d.ts
+
+# Svelte
+.svelte-kit
