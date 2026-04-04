@@ -1,4 +1,6 @@
-![aka logo](admin/static/favicon.svg)
+<picture>
+  <img alt="aka logo" src="admin/static/favicon.svg" width="96">
+</picture>
 
 # aka
 
@@ -12,10 +14,10 @@ with a [SvelteKit](https://svelte.dev/docs/kit/introduction#What-is-SvelteKit) a
 The main site runs on [Cloudflare Workers](https://www.cloudflare.com/en-gb/developer-platform/products/workers/)
 and redirects users to links based on the path they are accessing.
 
-Links are stored in a [Cloudflare D1 database](https://www.cloudflare.com/en-gb/developer-platform/products/d1/).
-
 The admin site runs on [Cloudflare Workers](https://www.cloudflare.com/en-gb/developer-platform/products/workers/)
 and uses [SvelteKit](https://svelte.dev/docs/kit/introduction#What-is-SvelteKit).
+
+Data is stored in a [Cloudflare D1 database](https://www.cloudflare.com/en-gb/developer-platform/products/d1/).
 
 ```mermaid
 architecture-beta
