@@ -39,6 +39,7 @@ architecture-beta
 
 ```bash
 # tba
+# - init db with schema
 ```
 
 ### Running web
