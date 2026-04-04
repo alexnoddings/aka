@@ -1,4 +1,4 @@
-async function recordRedirectEvent(
+export async function recordRedirectEvent(
 	request: Request<unknown, IncomingRequestCfProperties>,
 	env: Env,
 	linkId: string,

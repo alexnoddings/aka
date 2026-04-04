@@ -1,3 +1,5 @@
+import {recordRedirectEvent} from "./events";
+
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
 		try {
