@@ -18,6 +18,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	.brand {
@@ -30,9 +31,14 @@
 		font-weight: 200;
 		font-size: 2.5rem;
 		text-decoration: none;
+		color: var(--color-text-highlight);
 
 		.brand__name {
 			margin-inline-start: 8px;
+		}
+
+		&:hover {
+			background: var(--color-surface-hover);
 		}
 	}
 </style>
