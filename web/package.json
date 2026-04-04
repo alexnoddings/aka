@@ -4,9 +4,9 @@
 	"private": true,
 	"scripts": {
 		"init": "npm run gen && npm run setup-d1",
-		"setup-d1": "wrangler d1 execute aka --local --file=../migrations/000-schema.sql",
+		"setup-d1": "wrangler d1 execute aka --local --persist-to=../admin/.wrangler/state --file=../migrations/000-schema.sql",
 		"gen": "wrangler types ./src/cloudflare.d.ts",
-		"dev": "wrangler dev --port 8777",
+		"dev": "wrangler dev --port 8777 --persist-to=../admin/.wrangler/state",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"deploy": "wrangler deploy"

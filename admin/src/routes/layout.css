@@ -1,0 +1,26 @@
+@import '@fontsource/atkinson-hyperlegible-next';
+@import '@fontsource/atkinson-hyperlegible-next/200.css';
+@import '@fontsource/atkinson-hyperlegible-next/300.css';
+@import '@fontsource/atkinson-hyperlegible-next/400.css';
+@import '@fontsource/atkinson-hyperlegible-next/500.css';
+@import '@fontsource/atkinson-hyperlegible-next/600.css';
+@import '@fontsource/atkinson-hyperlegible-next/700.css';
+@import '@fontsource/atkinson-hyperlegible-next/800.css';
+@import 'preflight.css';
+
+:root {
+	--color-bg: #fafafa;
+	--color-text: #313131;
+	--font-body: 'Atkinson Hyperlegible Next', sans-serif;
+	--font-mono: monospace;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+
+	font-family: var(--font-body), 'sans-serif';
+	color: var(--color-text);
+
+	background: var(--color-bg);
+}

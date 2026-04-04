@@ -46,7 +46,16 @@ npm install
 # - sets up local D1 database schema
 # - generates TS types
 npm run init
-npm run gen
+```
+
+Admin also needs a `wrangler.jsonc` file, based on the `wrangler.jsonc.example` file.
+
+```bash
+cd admin
+npm install
+# init:
+# - generates TS types
+npm run init
 ```
 
 ### Running web
@@ -60,6 +69,9 @@ npm run dev
 
 ### Running admin
 
+Web is hosted locally at http://localhost:8778/.
+
 ```bash
-# tba
+cd admin
+npm run dev
 ```
