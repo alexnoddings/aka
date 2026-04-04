@@ -1,0 +1,42 @@
+@import '_reset.css';
+@import 'buttons.css';
+@import 'cards.css';
+@import 'fonts.css';
+@import 'forms.css';
+@import 'misc.css';
+
+:root {
+	--color-bg: #fafafa;
+	--color-surface: #ffffff;
+	--color-surface-alt: #f7f7f7;
+	--color-surface-hover: #f2f2f2;
+	--color-border: #e5e5e5;
+
+	--color-text: #313131;
+	--color-text-muted: #626262;
+	--color-text-contrast: #ffffff;
+
+	--color-primary: #066fff;
+	--color-primary-light: #4f99ff;
+	--color-primary-dark: #003383;
+	--color-accent: #f8822f;
+	--color-accent-light: #f4a440;
+	--color-success: #008338;
+	--color-error: #fb3333;
+
+	--border-radius: 0.25rem;
+	--spacing: 0.25rem;
+
+	--font-body: 'Atkinson Hyperlegible Next', sans-serif;
+	--font-mono: monospace;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+
+	font-family: var(--font-body), 'sans-serif';
+	color: var(--color-text);
+
+	background: var(--color-bg);
+}

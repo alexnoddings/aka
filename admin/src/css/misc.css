@@ -1,0 +1,44 @@
+@import '_reset.css';
+@import 'buttons.css';
+@import 'cards.css';
+@import 'fonts.css';
+@import 'forms.css';
+@import 'links.css';
+
+svg {
+	fill: currentColor;
+}
+
+.container-sm {
+	margin-inline: auto;
+	width: 100%;
+	max-width: 24rem;
+}
+
+.container-md {
+	margin-inline: auto;
+	width: 100%;
+	max-width: 42rem;
+}
+
+.container-lg {
+	margin-inline: auto;
+	width: 100%;
+	max-width: 56rem;
+}
+
+.page-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-block-start: calc(var(--spacing) * 4);
+	margin-block-end: var(--spacing);
+}
+
+.page-title {
+	font-size: 2.2rem;
+}
+
+.spacer {
+	flex-grow: 1;
+}

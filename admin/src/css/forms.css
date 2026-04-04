@@ -1,0 +1,42 @@
+.form-group {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: calc(var(--spacing) * 2);
+
+	label {
+		line-height: 1;
+		margin-block-end: calc(var(--spacing) * 1.5);
+	}
+	.hint {
+		line-height: 1;
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+		margin-block-end: calc(var(--spacing) * 1.5);
+	}
+	.error {
+		line-height: 1;
+		font-size: 0.9rem;
+		color: var(--color-error);
+		margin-block-end: calc(var(--spacing) * 1.5);
+	}
+	input,
+	textarea {
+		display: block;
+		border: 1px solid var(--color-border);
+		border-radius: var(--border-radius);
+		padding-inline: calc(var(--spacing) * 2);
+		padding-block: calc(var(--spacing) * 1);
+
+		&.errored {
+			border-color: var(--color-error);
+		}
+
+		&:focus {
+			outline: 4px solid var(--color-primary);
+		}
+	}
+}
+
+.error {
+	color: var(--color-error);
+}
