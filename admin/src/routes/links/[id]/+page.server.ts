@@ -1,6 +1,8 @@
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ platform, params }) => {
+const PAGE_SIZE = 2;
+
+export const load: PageServerLoad = async ({ platform, params, url }) => {
 	const db = platform?.env.aka;
 	if (!db) {
 		throw Error('database unavailable');
@@ -15,6 +17,20 @@ export const load: PageServerLoad = async ({ platform, params }) => {
 	if (!link) {
 		return { link: undefined };
 	}
+
+	const pageStr = url.searchParams.get('page') ?? '1';
+	const pageInt = parseInt(pageStr, 10);
+	const page = Math.max(1, pageInt);
+
+	const countResult = await db
+		.prepare(`SELECT COUNT(*) AS total FROM redirect_events WHERE link_id = ?`)
+		.bind(id)
+		.first<{ total: number }>();
+
+	const totalEvents = countResult?.total ?? 0;
+	const totalPages = Math.max(1, Math.ceil(totalEvents / PAGE_SIZE));
+	const currentPage = Math.min(page, totalPages);
+	const offset = (currentPage - 1) * PAGE_SIZE;
 
 	const events = await db
 		.prepare(
@@ -33,14 +49,18 @@ export const load: PageServerLoad = async ({ platform, params }) => {
 				FROM redirect_events
 				WHERE link_id = ?
 				ORDER BY requested_at DESC
+				LIMIT ? OFFSET ?
             `
 		)
-		.bind(id)
+		.bind(id, PAGE_SIZE, offset)
 		.all<RedirectEvent>();
 
 	return {
-		link: link,
-		events: events.results!
+		link,
+		events: events.results!,
+		currentPage,
+		totalPages,
+		totalEvents
 	};
 };
 

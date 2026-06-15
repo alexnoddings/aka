@@ -46,70 +46,89 @@
 
 		<div class="card">
 			<div class="card__body card__body--content">
-				{#each data.events as event (event)}
-					<details class="event">
-						<summary class="event__header">
-							<span class="event__icon event__icon--open">
-								<OcticonChevronRight />
-							</span>
-							<span class="event__icon event__icon--close">
-								<OcticonChevronDown />
-							</span>
-							<span class="event__header-text">
-								<OcticonClock />
-								{makeDateRelativeLong(event.requestedAt, true)}
-							</span>
-							<span class="spacer"></span>
-							<span class="event__header-text">
-								<OcticonLocation />
-								{event.city}, {event.region}, {event.country}
-							</span>
-						</summary>
-						<div class="event__section event__section--utm">
-							<div class="utm-content">
-								<div class="event__section__header">UTM Source</div>
-								<div class="utm-value">
-									{event.utmSource ?? '-'}
+				{#if data.events.length === 0}
+					<p class="no-events">No visits recorded yet.</p>
+				{:else}
+					{#each data.events as event (event)}
+						<details class="event">
+							<summary class="event__header">
+								<span class="event__icon event__icon--open">
+									<OcticonChevronRight />
+								</span>
+								<span class="event__icon event__icon--close">
+									<OcticonChevronDown />
+								</span>
+								<span class="event__header-text">
+									<OcticonClock />
+									{makeDateRelativeLong(event.requestedAt, true)}
+								</span>
+								<span class="spacer"></span>
+								<span class="event__header-text">
+									<OcticonLocation />
+									{event.city}, {event.region}, {event.country}
+								</span>
+							</summary>
+							<div class="event__section event__section--utm">
+								<div class="utm-content">
+									<div class="event__section__header">UTM Source</div>
+									<div class="utm-value">
+										{event.utmSource ?? '-'}
+									</div>
+								</div>
+								<div class="utm-content">
+									<div class="event__section__header">UTM Medium</div>
+									<div class="utm-value">
+										{event.utmMedium ?? '-'}
+									</div>
+								</div>
+								<div class="utm-content">
+									<div class="event__section__header">UTM Content</div>
+									<div class="utm-value">
+										{event.utmContent ?? '-'}
+									</div>
+								</div>
+								<div class="utm-content">
+									<div class="event__section__header">UTM Campaign</div>
+									<div class="utm-value">
+										{event.utmCampaign ?? '-'}
+									</div>
+								</div>
+								<div class="utm-content">
+									<div class="event__section__header">UTM Term</div>
+									<div class="utm-value">
+										{event.utmTerm ?? '-'}
+									</div>
 								</div>
 							</div>
-							<div class="utm-content">
-								<div class="event__section__header">UTM Medium</div>
-								<div class="utm-value">
-									{event.utmMedium ?? '-'}
-								</div>
+							<div class="event__section">
+								<div class="event__section__header">Referred by</div>
+								{event.referrer ?? '-'}
 							</div>
-							<div class="utm-content">
-								<div class="event__section__header">UTM Content</div>
-								<div class="utm-value">
-									{event.utmContent ?? '-'}
-								</div>
+							<div class="event__section">
+								<div class="event__section__header">User agent</div>
+								<code>
+									{event.userAgent ?? '-'}
+								</code>
 							</div>
-							<div class="utm-content">
-								<div class="event__section__header">UTM Campaign</div>
-								<div class="utm-value">
-									{event.utmCampaign ?? '-'}
-								</div>
-							</div>
-							<div class="utm-content">
-								<div class="event__section__header">UTM Term</div>
-								<div class="utm-value">
-									{event.utmTerm ?? '-'}
-								</div>
-							</div>
-						</div>
-						<div class="event__section">
-							<div class="event__section__header">Referred by</div>
-							{event.referrer ?? '-'}
-						</div>
-						<div class="event__section">
-							<div class="event__section__header">User agent</div>
-							<code>
-								{event.userAgent ?? '-'}
-							</code>
-						</div>
-					</details>
-				{/each}
+						</details>
+					{/each}
+				{/if}
 			</div>
+			{#if data.totalPages > 1}
+				<div class="card__footer pagination">
+					{#if data.currentPage > 1}
+						<a href="?page={data.currentPage - 1}" class="button button--secondary">Previous</a>
+					{:else}
+						<span class="button button--secondary button--disabled" aria-disabled="true">Previous</span>
+					{/if}
+					<span class="pagination__info">Page {data.currentPage} of {data.totalPages}</span>
+					{#if data.currentPage < data.totalPages}
+						<a href="?page={data.currentPage + 1}" class="button button--secondary">Next</a>
+					{:else}
+						<span class="button button--secondary button--disabled" aria-disabled="true">Next</span>
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</div>
 {/if}
@@ -191,5 +210,27 @@
 		.event__icon.event__icon--close {
 			display: block;
 		}
+	}
+
+	.no-events {
+		color: var(--color-text-muted);
+		text-align: center;
+		padding-block: calc(var(--spacing) * 4);
+	}
+
+	.pagination {
+		justify-content: center;
+		gap: calc(var(--spacing) * 4);
+	}
+
+	.pagination__info {
+		color: var(--color-text-muted);
+		align-self: center;
+	}
+
+	.button--disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+		pointer-events: none;
 	}
 </style>
