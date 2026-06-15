@@ -59,7 +59,12 @@
 				<div class="card__icon">
 					<OcticonPulse />
 				</div>
-				<div class="card__title">Activity</div>
+				<div class="card__title">
+					<a href="/activity" class="link">
+						Activity
+						<OcticonChevronRight />
+					</a>
+				</div>
 			</div>
 			<div class="card__body sections">
 				<div class="section">
