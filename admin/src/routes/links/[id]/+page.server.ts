@@ -66,9 +66,8 @@ export const load: PageServerLoad = async ({ platform, params, url }) => {
 
 type Link = {
 	id: string;
-	slug: string;
-	destinationUrl: string;
-	notes: string;
+	slug: string | null;
+	isActive: number;
 };
 
 type RedirectEvent = {

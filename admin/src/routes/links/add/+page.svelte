@@ -7,6 +7,8 @@
 	}
 
 	let { form = $bindable() }: Props = $props();
+
+	let publicSlug = $state(form?.publicSlug ?? true);
 </script>
 
 <svelte:head>
@@ -21,8 +23,19 @@
 	<form method="post">
 		<div class="surface surface--content">
 			<div class="form-group">
+				<label class="checkbox-label">
+					<input type="checkbox" name="publicSlug" bind:checked={publicSlug} />
+					Public link
+				</label>
+				<span class="hint">
+					Public links have slugs. Campaign links are only accessible via campaigns.
+				</span>
+			</div>
+			<div class="form-group" class:form-group--disabled={!publicSlug}>
 				<label for="slug">Slug</label>
-				<span class="hint"> The link's shortcode path. Can contain forward slashes. </span>
+				<span class="hint">
+					The link's shortcode path. Leave empty for the root redirect (/).
+				</span>
 				{#if !!form?.errors?.slug}
 					<span class="error">{form?.errors?.slug}</span>
 				{/if}
@@ -31,6 +44,7 @@
 					name="slug"
 					type="text"
 					value={form?.slug ?? ''}
+					disabled={!publicSlug}
 					class:errored={!!form?.errors?.slug}
 					maxlength={linkConstraints.slug.maxLength}
 				/>
@@ -75,5 +89,17 @@
 	.button-group {
 		margin-top: calc(var(--spacing) * 4);
 		padding-inline: calc(var(--spacing) * 3);
+	}
+
+	.form-group--disabled {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
+	.checkbox-label {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 2);
+		cursor: pointer;
 	}
 </style>

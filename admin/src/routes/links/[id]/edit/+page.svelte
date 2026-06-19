@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ActionData, PageData } from './$types';
 	import { linkConstraints } from '$/routes/links/linkConstraints.ts';
+	import { untrack } from 'svelte';
 
 	interface Props {
 		data: PageData;
@@ -8,6 +9,8 @@
 	}
 
 	let { data, form = $bindable() }: Props = $props();
+
+	let publicSlug = $state(untrack(() => form?.publicSlug ?? data.link?.slug !== null));
 </script>
 
 <svelte:head>
@@ -20,7 +23,7 @@
 			<h1 class="page-title">Edit link</h1>
 			{#if !!data.link}
 				<p class="old-slug-hint">
-					Editing {data.link.slug.length === 0 ? 'default' : data.link.slug}
+					Editing {data.link.slug === null ? 'campaign-only link' : data.link.slug === '' ? 'root redirect' : data.link.slug}
 				</p>
 			{/if}
 		</div>
@@ -35,8 +38,19 @@
 		<form method="post">
 			<div class="surface surface--content">
 				<div class="form-group">
+					<label class="checkbox-label">
+						<input type="checkbox" name="publicSlug" bind:checked={publicSlug} />
+						Public link
+					</label>
+					<span class="hint">
+						Public links have slugs. Campaign links are only accessible via campaigns.
+					</span>
+				</div>
+				<div class="form-group" class:form-group--disabled={!publicSlug}>
 					<label for="slug">Slug</label>
-					<span class="hint"> The link's shortcode path. Can contain forward slashes. </span>
+					<span class="hint">
+						The link's shortcode path. Leave empty for the root redirect (/).
+					</span>
 					{#if !!form?.errors?.slug}
 						<span class="error">{form?.errors?.slug}</span>
 					{/if}
@@ -44,7 +58,8 @@
 						id="slug"
 						name="slug"
 						type="text"
-						value={form?.slug ?? data.link.slug}
+						value={form?.slug ?? data.link.slug ?? ''}
+						disabled={!publicSlug}
 						class:errored={!!form?.errors?.slug}
 						maxlength={linkConstraints.slug.maxLength}
 					/>
@@ -104,5 +119,17 @@
 	.button-group {
 		margin-top: calc(var(--spacing) * 4);
 		padding-inline: calc(var(--spacing) * 3);
+	}
+
+	.form-group--disabled {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
+	.checkbox-label {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 2);
+		cursor: pointer;
 	}
 </style>

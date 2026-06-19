@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
-import { getForm, idExists } from '../../validation.ts';
+import { getForm, idExists } from '$/routes/links/validation';
 
 export const load: PageServerLoad = async ({ params, platform }) => {
 	const db = platform?.env.aka;

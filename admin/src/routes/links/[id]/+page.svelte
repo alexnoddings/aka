@@ -33,7 +33,9 @@
 	<div class="container-lg">
 		<div class="page-header">
 			<h1 class="page-title">
-				{#if data.link.slug.length === 0}
+				{#if data.link.slug === null}
+					<span class="slug slug--default">No vanity link</span>
+				{:else if data.link.slug.length === 0}
 					<span class="slug slug--default">Default</span>
 				{:else}
 					<span class="slug">{data.link.slug}</span>

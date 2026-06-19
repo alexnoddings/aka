@@ -54,7 +54,13 @@
 					<option value="">All links</option>
 					{#each data.links as link}
 						<option value={link.id} selected={data.filters.linkId === link.id}>
-							{link.slug.length === 0 ? '(default)' : link.slug}
+							{#if link.slug === null}
+								<i>&lt;null&gt;</i>
+							{:else if link.slug.length === 0}
+								<i>(default)</i>
+							{:else}
+								{link.slug}
+							{/if}
 						</option>
 					{/each}
 				</select>
@@ -124,7 +130,7 @@
 							<span class="spacer"></span>
 							<span class="event__header-text">
 								<OcticonLocation />
-								{[event.city, event.region, event.country].filter(Boolean).join(', ') || '—'}
+								{[event.city, event.region, event.country].filter(Boolean).join(', ') || '-'}
 							</span>
 						</summary>
 						<div class="event__section event__section--utm">

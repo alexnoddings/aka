@@ -1,4 +1,4 @@
-import { linkConstraints } from '$/routes/links/linkConstraints.ts';
+import { linkConstraints } from '$/routes/links/linkConstraints';
 
 type Form = {
 	slug: string;
@@ -15,9 +15,7 @@ type FormErrors = {
 function getString(form: FormData, key: string) {
 	const value = form.get(key);
 	if (!value) return '';
-
 	if (typeof value !== 'string') return '';
-
 	return value.trim();
 }
 
@@ -30,35 +28,24 @@ export function getForm(data: FormData) {
 }
 
 export async function validateForm(form: Form, aka: D1Database): Promise<FormErrors | undefined> {
-	if (form.slug.length > linkConstraints.slug.maxLength) {
-		return {
-			slug: `Slug must be ${linkConstraints.slug.maxLength} characters or less`
-		};
-	}
-
-	const slugError = linkConstraints.slug.validate(form.slug);
-	if (!!slugError) {
-		return {
-			slug: slugError
-		};
+	if (form.slug) {
+		if (form.slug.length > linkConstraints.slug.maxLength) {
+			return { slug: `Slug must be ${linkConstraints.slug.maxLength} characters or less` };
+		}
+		const slugError = linkConstraints.slug.validate(form.slug);
+		if (slugError) return { slug: slugError };
 	}
 
 	if (!linkConstraints.destination.isValid(form.destination)) {
-		return {
-			destination: `Destination must be a valid URL`
-		};
+		return { destination: 'Destination must be a valid URL' };
 	}
 
 	if (form.destination.length > linkConstraints.destination.maxLength) {
-		return {
-			destination: `Destination must be ${linkConstraints.destination.maxLength} characters or less`
-		};
+		return { destination: `Destination must be ${linkConstraints.destination.maxLength} characters or less` };
 	}
 
 	if (form.notes.length > linkConstraints.notes.maxLength) {
-		return {
-			notes: `Notes must be ${linkConstraints.destination.maxLength} characters or less`
-		};
+		return { notes: `Notes must be ${linkConstraints.notes.maxLength} characters or less` };
 	}
 
 	return undefined;

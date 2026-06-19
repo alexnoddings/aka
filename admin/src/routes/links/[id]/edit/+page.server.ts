@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
-import { getExistingSlugId, getForm, idExists, validateForm } from '../../validation.ts';
+import { getExistingSlugId, getForm, idExists, validateForm } from '$/routes/links/validation';
 
 export const load: PageServerLoad = async ({ params, platform }) => {
 	const db = platform?.env.aka;
@@ -14,14 +14,14 @@ export const load: PageServerLoad = async ({ params, platform }) => {
 		.bind(id)
 		.first<Link>();
 
-	return { link: link };
+	return { link };
 };
 
 type Link = {
 	id: string;
-	slug: string;
+	slug: string | null;
 	destinationUrl: string;
-	notes: string;
+	notes: string | null;
 };
 
 export const actions = {
@@ -34,49 +34,40 @@ export const actions = {
 		}
 
 		const data = await request.formData();
+		const publicSlug = data.get('publicSlug') === 'on';
 		const form = getForm(data);
+		if (!publicSlug) form.slug = '';
+
 		if (!(await idExists(id, db))) {
-			return fail(404, {
-				...form,
-				errors: {
-					id: 'Link not found'
-				}
-			});
+			return fail(404, { ...form, publicSlug, errors: { id: 'Link not found' } });
 		}
 
 		const errors = await validateForm(form, db);
-		if (!!errors) {
-			return fail(400, {
-				...form,
-				errors: errors
-			});
+		if (errors) {
+			return fail(400, { ...form, publicSlug, errors });
 		}
 
-		const existingSlug = await getExistingSlugId(form.slug, db);
-		const isDuplicateSlug = !!existingSlug && existingSlug != id;
-		if (isDuplicateSlug) {
-			return fail(400, {
-				...form,
-				errors: {
-					slug: 'A different link already exists with this slug'
-				}
-			});
+		if (publicSlug) {
+			const existingSlug = await getExistingSlugId(form.slug, db);
+			if (existingSlug && existingSlug !== id) {
+				return fail(400, { ...form, publicSlug, errors: { slug: 'A different link already exists with this slug' } });
+			}
 		}
 
 		const now = new Date().toISOString();
+		const slug = publicSlug ? form.slug : null;
 		await db
-			.prepare(
-				`
-				UPDATE links
-				SET slug            = ?2,
-				    destination_url = ?3,
-				    notes           = ?4,
-				    updated_at      = ?5
-				WHERE id = ?1`
-			)
-			.bind(id, form.slug, form.destination, form.notes, now)
+			.prepare(`
+                UPDATE links
+                SET slug            = ?2,
+                    destination_url = ?3,
+                    notes           = ?4,
+                    updated_at      = ?5
+                WHERE id = ?1
+            `)
+			.bind(id, slug, form.destination, form.notes, now)
 			.run();
 
-		return redirect(302, `/links}`);
+		return redirect(302, `/links`);
 	}
 } satisfies Actions;

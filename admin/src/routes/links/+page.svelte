@@ -46,12 +46,12 @@
 					</div>
 					<div>
 						<a href="/links/{link.id}" class="link">
-							{#if link.slug.length === 0}
+							{#if link.slug === null}
+								<div class="link-item__slug link-item__slug--default">no vanity link</div>
+							{:else if link.slug.length === 0}
 								<div class="link-item__slug link-item__slug--default">default</div>
 							{:else}
-								<div class="link-item__slug">
-									{link.slug}
-								</div>
+								<div class="link-item__slug">{link.slug}</div>
 							{/if}
 							<OcticonChevronRight />
 						</a>
@@ -80,7 +80,7 @@
 					<div class="link-item__meta">
 						<OcticonPulse />
 						Last used
-						{makeDateRelativeLong(link.lastUsed)}
+						{makeDateRelativeLong(link.lastUsed ?? undefined)}
 					</div>
 					<span class="spacer"></span>
 					<div class="link-item__meta">

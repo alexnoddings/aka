@@ -30,8 +30,14 @@
 		<form method="post">
 			<div class="card">
 				<div class="card__header">
-					{#if data.link.slug.length === 0}
-						<div class="card__header__title slug slug-default">default</div>
+					{#if data.link.slug === null}
+						<div class="card__header__title slug slug-null">
+							&lt;none&gt;
+						</div>
+					{:else if data.link.slug.length === 0}
+						<div class="card__header__title slug slug-default">
+							default
+						</div>
 					{:else}
 						<div class="card__header__title slug">
 							{data.link.slug}
@@ -70,6 +76,10 @@
 		line-height: 1.2;
 		padding-inline: var(--spacing);
 
+		&.slug-null {
+			font-style: italic;
+			color: var(--color-text-muted);
+		}
 		&.slug-default {
 			font-style: italic;
 			color: var(--color-text-muted);
