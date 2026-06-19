@@ -3,8 +3,10 @@
 	"version": "1.0.0",
 	"private": true,
 	"scripts": {
-		"init": "npm run gen && npm run setup-d1",
-		"setup-d1": "wrangler d1 execute aka --local --persist-to=../admin/.wrangler/state --file=../migrations/000-schema.sql",
+		"init": "npm run gen && npm run migrate",
+		"migrate": "npm run migrate-000 && npm run migrate-001",
+		"migrate-000": "wrangler d1 execute aka --local --persist-to=../admin/.wrangler/state --file=../migrations/000-schema.sql",
+		"migrate-001": "wrangler d1 execute aka --local --persist-to=../admin/.wrangler/state --file=../migrations/001-campaigns.sql",
 		"gen": "wrangler types ./src/cloudflare.d.ts",
 		"dev": "wrangler dev --port 8777 --persist-to=../admin/.wrangler/state",
 		"lint": "prettier --check . && eslint .",
