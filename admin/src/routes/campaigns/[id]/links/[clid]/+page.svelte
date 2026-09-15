@@ -5,6 +5,7 @@
     import OcticonClock from '$/icons/OcticonClock.svelte';
     import OcticonChevronRight from '$/icons/OcticonChevronRight.svelte';
     import OcticonChevronDown from '$/icons/OcticonChevronDown.svelte';
+    import CopySlug from '$/components/CopySlug.svelte';
 
     interface Props { data: PageData; }
     let { data }: Props = $props();
@@ -43,6 +44,7 @@
             <div class="info-row">
                 <span class="info-label">Slug</span>
                 <code>{data.campaignLink.slug}</code>
+                <CopySlug slug={data.campaignLink.slug} />
             </div>
             <div class="info-row">
                 <span class="info-label">Destination</span>

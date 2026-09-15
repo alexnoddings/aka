@@ -1,12 +1,19 @@
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz0123456789';
 const SLUG_LENGTH = 8;
 
-export async function generateCampaignSlug(db: D1Database): Promise<string> {
-	for (let attempt = 0; attempt < 5; attempt++) {
+export async function generateCampaignSlug(db: D1Database, reserved?: Set<string>): Promise<string> {
+	for (let attempt = 0; attempt < 8; attempt++) {
 		const slug = randomSlug();
+		if (reserved?.has(slug)) 
+			continue;
+
 		const exists = await slugExistsAnywhere(slug, db);
-		if (!exists) return slug;
+		if (!exists) {
+			reserved?.add(slug);
+			return slug;
+		}
 	}
+	
 	throw new Error('Failed to generate unique campaign slug');
 }
 

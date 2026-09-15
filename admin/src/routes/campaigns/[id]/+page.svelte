@@ -6,6 +6,7 @@
     import OcticonChevronRight from '$/icons/OcticonChevronRight.svelte';
     import OcticonCheckCircleLg from '$/icons/OcticonCheckCircleLg.svelte';
     import OcticonXCircleLg from '$/icons/OcticonXCircleLg.svelte';
+    import CopySlug from '$/components/CopySlug.svelte';
     import { makeDateRelativeLong, makeDateRelativeShort } from '$lib/format.ts';
 
     interface Props { data: PageData; }
@@ -66,7 +67,7 @@
             <span class="spacer"></span>
             <a href="/campaigns/{data.campaign.id}/links/add" class="button button--primary">
                 <OcticonPlus />
-                Add link
+                Add links
             </a>
         </div>
 
@@ -87,13 +88,18 @@
                                 {/if}
                             </div>
                             <div>
-                                <a href="/campaigns/{data.campaign.id}/links/{cl.id}" class="link cl-item__slug">
-                                    {cl.slug}
-                                    <span class=cl-item__link-slug>
-                                        {cl.linkSlug}
-                                    </span>
-                                    <OcticonChevronRight />
-                                </a>
+                                <div class="cl-item__slug-row">
+                                    <a href="/campaigns/{data.campaign.id}/links/{cl.id}" class="link cl-item__slug">
+                                        {cl.slug}
+                                        {#if cl.linkSlug}
+                                            <span class="cl-item__link-slug">
+                                                {cl.linkSlug}
+                                            </span>
+                                        {/if}
+                                        <OcticonChevronRight />
+                                    </a>
+                                    <CopySlug slug={cl.slug} />
+                                </div>
                                 <a href={cl.destinationUrl} class="link cl-item__destination">
                                     {cl.destinationUrl}
                                 </a>
@@ -181,6 +187,13 @@
         margin-inline-end: calc(var(--spacing) * 2);
         .status--active { color: var(--color-success); }
         .status--inactive { color: var(--color-text-muted); }
+    }
+
+    .cl-item__slug-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--spacing);
     }
 
     .cl-item__slug {
