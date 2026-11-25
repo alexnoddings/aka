@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 35;
 
 export const load: PageServerLoad = async ({ platform, url }) => {
 	const db = platform?.env.aka;
@@ -15,8 +15,9 @@ export const load: PageServerLoad = async ({ platform, url }) => {
 	const filterTerm = url.searchParams.get('utmTerm') || null;
 	const filterContent = url.searchParams.get('utmContent') || null;
 
-	const pageInt = parseInt(url.searchParams.get('page') ?? '1', 10);
-	const page = Math.max(1, isNaN(pageInt) ? 1 : pageInt);
+    const pageStr = url.searchParams.get('page') ?? '1';
+    const pageInt = parseInt(pageStr, 10);
+    const page = Math.max(1, isNaN(pageInt) ? 1 : pageInt);
 
 	const conditions: string[] = [];
 	const bindings: (string | number)[] = [];

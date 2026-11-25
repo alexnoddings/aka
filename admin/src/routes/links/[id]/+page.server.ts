@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 35;
 
 export const load: PageServerLoad = async ({ platform, params, url }) => {
 	const db = platform?.env.aka;
@@ -18,9 +18,9 @@ export const load: PageServerLoad = async ({ platform, params, url }) => {
 		return { link: undefined };
 	}
 
-	const pageStr = url.searchParams.get('page') ?? '1';
-	const pageInt = parseInt(pageStr, 10);
-	const page = Math.max(1, pageInt);
+    const pageStr = url.searchParams.get('page') ?? '1';
+    const pageInt = parseInt(pageStr, 10);
+    const page = Math.max(1, isNaN(pageInt) ? 1 : pageInt);
 
 	const countResult = await db
 		.prepare(`SELECT COUNT(*) AS total FROM redirect_events WHERE link_id = ?`)
