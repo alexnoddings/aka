@@ -38,7 +38,12 @@
 	}
 </script>
 
-<dialog bind:this={dialog} class="export-dialog" aria-labelledby="export-dialog-title" onclick={onDialogClick}>
+<dialog
+	bind:this={dialog}
+	class="export-dialog"
+	aria-labelledby="export-dialog-title"
+	onclick={onDialogClick}
+>
 	<div class="export-dialog__content">
 		<div class="export-dialog__header">
 			<h2 id="export-dialog-title" class="export-dialog__title">{title}</h2>

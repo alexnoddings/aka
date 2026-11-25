@@ -16,13 +16,11 @@ export const load = (async ({ platform }) => {
 
 	const data = await db
 		.prepare(
-			`
-				SELECT (SELECT COUNT(*) FROM links WHERE is_active = 1)               AS enabledLinkCount,
+			`SELECT (SELECT COUNT(*) FROM links WHERE is_active = 1)               AS enabledLinkCount,
 				       (SELECT COUNT(*) FROM links WHERE is_active = 0)               AS disabledLinkCount,
 				       (SELECT COUNT(*) FROM redirect_events WHERE requested_at >= ?) AS dayVisitorCount,
 				       (SELECT COUNT(*) FROM redirect_events WHERE requested_at >= ?) AS monthVisitorCount,
-				       (SELECT COUNT(*) FROM redirect_events)                         AS lifetimeVisitorCount
-			`
+				       (SELECT COUNT(*) FROM redirect_events)                         AS lifetimeVisitorCount`
 		)
 		.bind(dayMin.toISOString(), monthMin.toISOString())
 		.first<Data>();

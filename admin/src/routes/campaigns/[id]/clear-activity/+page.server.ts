@@ -18,12 +18,10 @@ export const load: PageServerLoad = async ({ params, platform }) => {
 
 	const result = await db
 		.prepare(
-			`
-            SELECT COUNT(*) AS count
+			`SELECT COUNT(*) AS count
             FROM redirect_events re
             JOIN campaign_links cl ON re.campaign_link_id = cl.id
-            WHERE cl.campaign_id = ? AND re.requested_at >= ?
-        `
+            WHERE cl.campaign_id = ? AND re.requested_at >= ?`
 		)
 		.bind(params.id, minutesAgo(CLEAR_WINDOW_MINUTES))
 		.first<{ count: number }>();
@@ -41,11 +39,9 @@ export const actions = {
 
 		await db
 			.prepare(
-				`
-                DELETE FROM redirect_events
+				`DELETE FROM redirect_events
                 WHERE requested_at >= ?2
-                  AND campaign_link_id IN (SELECT id FROM campaign_links WHERE campaign_id = ?1)
-            `
+                  AND campaign_link_id IN (SELECT id FROM campaign_links WHERE campaign_id = ?1)`
 			)
 			.bind(params.id, minutesAgo(CLEAR_WINDOW_MINUTES))
 			.run();

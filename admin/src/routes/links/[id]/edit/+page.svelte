@@ -23,7 +23,11 @@
 			<h1 class="page-title">Edit link</h1>
 			{#if !!data.link}
 				<p class="old-slug-hint">
-					Editing {data.link.slug === null ? 'campaign-only link' : data.link.slug === '' ? 'root redirect' : data.link.slug}
+					Editing {data.link.slug === null
+						? 'campaign-only link'
+						: data.link.slug === ''
+							? 'root redirect'
+							: data.link.slug}
 				</p>
 			{/if}
 		</div>

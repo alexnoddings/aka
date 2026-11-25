@@ -18,9 +18,9 @@ export const load: PageServerLoad = async ({ platform, params, url }) => {
 		return { link: undefined };
 	}
 
-    const pageStr = url.searchParams.get('page') ?? '1';
-    const pageInt = parseInt(pageStr, 10);
-    const page = Math.max(1, isNaN(pageInt) ? 1 : pageInt);
+	const pageStr = url.searchParams.get('page') ?? '1';
+	const pageInt = parseInt(pageStr, 10);
+	const page = Math.max(1, isNaN(pageInt) ? 1 : pageInt);
 
 	const countResult = await db
 		.prepare(`SELECT COUNT(*) AS total FROM redirect_events WHERE link_id = ?`)
@@ -34,8 +34,7 @@ export const load: PageServerLoad = async ({ platform, params, url }) => {
 
 	const events = await db
 		.prepare(
-			`
-				SELECT requested_at AS requestedAt,
+			`SELECT requested_at AS requestedAt,
 				       referrer     AS referrer,
 				       user_agent   AS userAgent,
 				       country      AS country,
@@ -49,8 +48,7 @@ export const load: PageServerLoad = async ({ platform, params, url }) => {
 				FROM redirect_events
 				WHERE link_id = ?
 				ORDER BY requested_at DESC
-				LIMIT ? OFFSET ?
-            `
+				LIMIT ? OFFSET ?`
 		)
 		.bind(id, PAGE_SIZE, offset)
 		.all<RedirectEvent>();

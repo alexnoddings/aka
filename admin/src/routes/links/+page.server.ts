@@ -7,8 +7,8 @@ export const load: PageServerLoad = async ({ platform }) => {
 	}
 
 	const links = await db
-		.prepare(`
-            SELECT links.id,
+		.prepare(
+			`SELECT links.id,
                    links.is_active AS active,
                    links.slug,
                    links.notes,
@@ -26,8 +26,8 @@ export const load: PageServerLoad = async ({ platform }) => {
                 LEFT JOIN redirect_events ON redirect_events.link_id = links.id
                 GROUP BY links.id
             ) sub ON links.id = sub.id
-            ORDER BY links.slug IS NULL, links.slug
-        `)
+            ORDER BY links.slug IS NULL, links.slug`
+		)
 		.all<LinkInfo>();
 
 	return { links: links.results! };

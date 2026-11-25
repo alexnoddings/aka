@@ -50,21 +50,25 @@ export const actions = {
 		if (publicSlug) {
 			const existingSlug = await getExistingSlugId(form.slug, db);
 			if (existingSlug && existingSlug !== id) {
-				return fail(400, { ...form, publicSlug, errors: { slug: 'A different link already exists with this slug' } });
+				return fail(400, {
+					...form,
+					publicSlug,
+					errors: { slug: 'A different link already exists with this slug' }
+				});
 			}
 		}
 
 		const now = new Date().toISOString();
 		const slug = publicSlug ? form.slug : null;
 		await db
-			.prepare(`
-                UPDATE links
+			.prepare(
+				`UPDATE links
                 SET slug            = ?2,
                     destination_url = ?3,
                     notes           = ?4,
                     updated_at      = ?5
-                WHERE id = ?1
-            `)
+                WHERE id = ?1`
+			)
 			.bind(id, slug, form.destination, form.notes, now)
 			.run();
 

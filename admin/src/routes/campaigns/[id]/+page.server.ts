@@ -1,39 +1,41 @@
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ platform, params }) => {
-    const db = platform?.env.aka;
-    if (!db) throw Error('database unavailable');
+	const db = platform?.env.aka;
+	if (!db) throw Error('database unavailable');
 
-    const id = params.id;
+	const id = params.id;
 
-    const campaign = await db
-        .prepare(`SELECT id, name, notes, is_active AS isActive, created_at AS createdAt, updated_at AS updatedAt FROM campaigns WHERE id=?`)
-        .bind(id)
-        .first<Campaign>();
+	const campaign = await db
+		.prepare(
+			`SELECT id, name, notes, is_active AS isActive, created_at AS createdAt, updated_at AS updatedAt FROM campaigns WHERE id=?`
+		)
+		.bind(id)
+		.first<Campaign>();
 
-    if (!campaign) return { campaign: undefined };
+	if (!campaign) return { campaign: undefined };
 
-    const today = new Date();
-    const dayMin = new Date(today.valueOf());
-    dayMin.setDate(dayMin.getDate() - 1);
-    const monthMin = new Date(today.valueOf());
-    monthMin.setDate(monthMin.getDate() - 30);
+	const today = new Date();
+	const dayMin = new Date(today.valueOf());
+	dayMin.setDate(dayMin.getDate() - 1);
+	const monthMin = new Date(today.valueOf());
+	monthMin.setDate(monthMin.getDate() - 30);
 
-    const stats = await db
-        .prepare(`
-            SELECT COUNT(CASE WHEN re.requested_at >= ? THEN 1 END) AS dayHits,
+	const stats = await db
+		.prepare(
+			`SELECT COUNT(CASE WHEN re.requested_at >= ? THEN 1 END) AS dayHits,
                    COUNT(CASE WHEN re.requested_at >= ? THEN 1 END) AS monthHits,
                    COUNT(*) AS totalHits
             FROM redirect_events re
             JOIN campaign_links cl ON re.campaign_link_id = cl.id
-            WHERE cl.campaign_id = ?
-        `)
-        .bind(dayMin.toISOString(), monthMin.toISOString(), id)
-        .first<Stats>();
+            WHERE cl.campaign_id = ?`
+		)
+		.bind(dayMin.toISOString(), monthMin.toISOString(), id)
+		.first<Stats>();
 
-    const campaignLinks = await db
-        .prepare(`
-            SELECT cl.id,
+	const campaignLinks = await db
+		.prepare(
+			`SELECT cl.id,
                    cl.slug,
                    cl.is_active AS isActive,
                    cl.created_at AS createdAt,
@@ -46,40 +48,40 @@ export const load: PageServerLoad = async ({ platform, params }) => {
             LEFT JOIN redirect_events re ON re.campaign_link_id = cl.id
             WHERE cl.campaign_id = ?
             GROUP BY cl.id
-            ORDER BY COALESCE(l.slug, ''), cl.created_at
-        `)
-        .bind(id)
-        .all<CampaignLink>();
+            ORDER BY COALESCE(l.slug, ''), cl.created_at`
+		)
+		.bind(id)
+		.all<CampaignLink>();
 
-    return {
-        campaign,
-        stats: stats ?? { dayHits: 0, monthHits: 0, totalHits: 0 },
-        campaignLinks: campaignLinks.results!
-    };
+	return {
+		campaign,
+		stats: stats ?? { dayHits: 0, monthHits: 0, totalHits: 0 },
+		campaignLinks: campaignLinks.results!
+	};
 };
 
 type Campaign = {
-    id: string;
-    name: string;
-    notes: string | null;
-    isActive: boolean;
-    createdAt: string;
-    updatedAt: string;
+	id: string;
+	name: string;
+	notes: string | null;
+	isActive: boolean;
+	createdAt: string;
+	updatedAt: string;
 };
 
 type Stats = {
-    dayHits: number;
-    monthHits: number;
-    totalHits: number;
+	dayHits: number;
+	monthHits: number;
+	totalHits: number;
 };
 
 type CampaignLink = {
-    id: string;
-    slug: string;
-    isActive: boolean;
-    createdAt: string;
-    linkSlug: string | null;
-    destinationUrl: string;
-    hits: number;
-    lastUsed: string | null;
+	id: string;
+	slug: string;
+	isActive: boolean;
+	createdAt: string;
+	linkSlug: string | null;
+	destinationUrl: string;
+	hits: number;
+	lastUsed: string | null;
 };

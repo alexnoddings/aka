@@ -1,2 +1,5 @@
 package-lock.json
 /static/
+.svelte-kit/
+.wrangler/
+src/cloudflare.d.ts

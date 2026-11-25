@@ -13,9 +13,21 @@
 		<span class="brand__name">aka</span>
 	</a>
 	<nav>
-		<a href="/links" class="nav-link" class:nav-link--active={$page.url.pathname.startsWith('/links')}>Links</a>
-		<a href="/campaigns" class="nav-link" class:nav-link--active={$page.url.pathname.startsWith('/campaigns')}>Campaigns</a>
-		<a href="/activity" class="nav-link" class:nav-link--active={$page.url.pathname.startsWith('/activity')}>Activity</a>
+		<a
+			href="/links"
+			class="nav-link"
+			class:nav-link--active={$page.url.pathname.startsWith('/links')}>Links</a
+		>
+		<a
+			href="/campaigns"
+			class="nav-link"
+			class:nav-link--active={$page.url.pathname.startsWith('/campaigns')}>Campaigns</a
+		>
+		<a
+			href="/activity"
+			class="nav-link"
+			class:nav-link--active={$page.url.pathname.startsWith('/activity')}>Activity</a
+		>
 	</nav>
 </header>
 

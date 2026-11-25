@@ -41,7 +41,9 @@ export async function validateForm(form: Form, aka: D1Database): Promise<FormErr
 	}
 
 	if (form.destination.length > linkConstraints.destination.maxLength) {
-		return { destination: `Destination must be ${linkConstraints.destination.maxLength} characters or less` };
+		return {
+			destination: `Destination must be ${linkConstraints.destination.maxLength} characters or less`
+		};
 	}
 
 	if (form.notes.length > linkConstraints.notes.maxLength) {

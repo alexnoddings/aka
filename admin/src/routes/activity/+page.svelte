@@ -75,7 +75,12 @@
 			</div>
 			<div class="form-group">
 				<label for="utmCampaign">UTM Campaign</label>
-				<input id="utmCampaign" name="utmCampaign" type="text" value={data.filters.campaign ?? ''} />
+				<input
+					id="utmCampaign"
+					name="utmCampaign"
+					type="text"
+					value={data.filters.campaign ?? ''}
+				/>
 			</div>
 			<div class="form-group">
 				<label for="utmTerm">UTM Term</label>
@@ -121,7 +126,9 @@
 							</span>
 							<span class="event__header-text">
 								<OcticonLink />
-								<span class="event-slug">{event.linkSlug.length === 0 ? '(default)' : event.linkSlug}</span>
+								<span class="event-slug"
+									>{event.linkSlug.length === 0 ? '(default)' : event.linkSlug}</span
+								>
 							</span>
 							<span class="event__header-text">
 								<OcticonClock />
@@ -170,9 +177,12 @@
 		{#if data.totalPages > 1}
 			<div class="card__footer pagination">
 				{#if data.currentPage > 1}
-					<a href={buildPageHref(data.currentPage - 1)} class="button button--secondary">Previous</a>
+					<a href={buildPageHref(data.currentPage - 1)} class="button button--secondary">Previous</a
+					>
 				{:else}
-					<span class="button button--secondary button--disabled" aria-disabled="true">Previous</span>
+					<span class="button button--secondary button--disabled" aria-disabled="true"
+						>Previous</span
+					>
 				{/if}
 				<span class="pagination__info">Page {data.currentPage} of {data.totalPages}</span>
 				{#if data.currentPage < data.totalPages}

@@ -121,7 +121,9 @@
 					{#if data.currentPage > 1}
 						<a href="?page={data.currentPage - 1}" class="button button--secondary">Previous</a>
 					{:else}
-						<span class="button button--secondary button--disabled" aria-disabled="true">Previous</span>
+						<span class="button button--secondary button--disabled" aria-disabled="true"
+							>Previous</span
+						>
 					{/if}
 					<span class="pagination__info">Page {data.currentPage} of {data.totalPages}</span>
 					{#if data.currentPage < data.totalPages}

@@ -1,12 +1,12 @@
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ platform }) => {
-    const db = platform?.env.aka;
-    if (!db) throw Error('database unavailable');
+	const db = platform?.env.aka;
+	if (!db) throw Error('database unavailable');
 
-    const campaigns = await db
-        .prepare(`
-            SELECT c.id,
+	const campaigns = await db
+		.prepare(
+			`SELECT c.id,
                    c.name,
                    c.is_active AS isActive,
                    c.created_at AS createdAt,
@@ -17,19 +17,19 @@ export const load: PageServerLoad = async ({ platform }) => {
             LEFT JOIN campaign_links cl ON cl.campaign_id = c.id AND cl.is_active = 1
             LEFT JOIN redirect_events re ON re.campaign_link_id = cl.id
             GROUP BY c.id
-            ORDER BY c.name
-        `)
-        .all<CampaignRow>();
+            ORDER BY c.name`
+		)
+		.all<CampaignRow>();
 
-    return { campaigns: campaigns.results! };
+	return { campaigns: campaigns.results! };
 };
 
 type CampaignRow = {
-    id: string;
-    name: string;
-    isActive: boolean;
-    createdAt: string;
-    linkCount: number;
-    totalHits: number;
-    lastUsed: string | null;
+	id: string;
+	name: string;
+	isActive: boolean;
+	createdAt: string;
+	linkCount: number;
+	totalHits: number;
+	lastUsed: string | null;
 };

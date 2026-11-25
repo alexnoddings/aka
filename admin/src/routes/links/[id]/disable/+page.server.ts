@@ -46,8 +46,7 @@ export const actions = {
 		const now = new Date().toISOString();
 		await db
 			.prepare(
-				`
-				UPDATE links
+				`UPDATE links
 				SET is_active  = 0,
 				    updated_at = ?2
 				WHERE id = ?1`

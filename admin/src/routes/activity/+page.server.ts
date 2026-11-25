@@ -15,19 +15,37 @@ export const load: PageServerLoad = async ({ platform, url }) => {
 	const filterTerm = url.searchParams.get('utmTerm') || null;
 	const filterContent = url.searchParams.get('utmContent') || null;
 
-    const pageStr = url.searchParams.get('page') ?? '1';
-    const pageInt = parseInt(pageStr, 10);
-    const page = Math.max(1, isNaN(pageInt) ? 1 : pageInt);
+	const pageStr = url.searchParams.get('page') ?? '1';
+	const pageInt = parseInt(pageStr, 10);
+	const page = Math.max(1, isNaN(pageInt) ? 1 : pageInt);
 
 	const conditions: string[] = [];
 	const bindings: (string | number)[] = [];
 
-	if (filterLinkId) { conditions.push('re.link_id = ?'); bindings.push(filterLinkId); }
-	if (filterSource) { conditions.push('re.utm_source = ?'); bindings.push(filterSource); }
-	if (filterMedium) { conditions.push('re.utm_medium = ?'); bindings.push(filterMedium); }
-	if (filterCampaign) { conditions.push('re.utm_campaign = ?'); bindings.push(filterCampaign); }
-	if (filterTerm) { conditions.push('re.utm_term = ?'); bindings.push(filterTerm); }
-	if (filterContent) { conditions.push('re.utm_content = ?'); bindings.push(filterContent); }
+	if (filterLinkId) {
+		conditions.push('re.link_id = ?');
+		bindings.push(filterLinkId);
+	}
+	if (filterSource) {
+		conditions.push('re.utm_source = ?');
+		bindings.push(filterSource);
+	}
+	if (filterMedium) {
+		conditions.push('re.utm_medium = ?');
+		bindings.push(filterMedium);
+	}
+	if (filterCampaign) {
+		conditions.push('re.utm_campaign = ?');
+		bindings.push(filterCampaign);
+	}
+	if (filterTerm) {
+		conditions.push('re.utm_term = ?');
+		bindings.push(filterTerm);
+	}
+	if (filterContent) {
+		conditions.push('re.utm_content = ?');
+		bindings.push(filterContent);
+	}
 
 	const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
@@ -47,8 +65,7 @@ export const load: PageServerLoad = async ({ platform, url }) => {
 
 	const events = await db
 		.prepare(
-			`
-				SELECT re.id            AS id,
+			`SELECT re.id            AS id,
 				       re.link_id       AS linkId,
 				       l.slug           AS linkSlug,
 				       re.requested_at  AS requestedAt,
@@ -66,8 +83,7 @@ export const load: PageServerLoad = async ({ platform, url }) => {
 				JOIN links l ON l.id = re.link_id
 				${whereClause}
 				ORDER BY re.requested_at DESC
-				LIMIT ? OFFSET ?
-			`
+				LIMIT ? OFFSET ?`
 		)
 		.bind(...bindings, PAGE_SIZE, offset)
 		.all<VisitEvent>();

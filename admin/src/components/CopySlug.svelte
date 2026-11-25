@@ -2,7 +2,9 @@
 	import OcticonCopy from '$/icons/OcticonCopy.svelte';
 	import OcticonCheck from '$/icons/OcticonCheck.svelte';
 
-	interface Props { slug: string; }
+	interface Props {
+		slug: string;
+	}
 	let { slug }: Props = $props();
 
 	let status = $state<'idle' | 'copied' | 'failed'>('idle');
@@ -90,7 +92,7 @@
 		height: 1px;
 		margin: -1px;
 		padding: 0;
-		
+
 		overflow: hidden;
 		clip-path: inset(50%);
 		white-space: nowrap;
