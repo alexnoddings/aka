@@ -31,6 +31,7 @@
             <h1 class="page-title">{data.campaign.name}</h1>
             <span class="spacer"></span>
             <a href="/campaigns/{data.campaign.id}/edit" class="button button--secondary button-lg">Edit</a>
+            <a href="/campaigns/{data.campaign.id}/clear-activity" class="button button--secondary button-lg">Clear recent activity</a>
             {#if data.campaign.isActive}
                 <a href="/campaigns/{data.campaign.id}/disable" class="button button--danger button-lg">Disable</a>
             {:else}
@@ -159,6 +160,10 @@
         .section__title { color: var(--color-text-muted); font-size: 0.8rem; }
         .section__value { font-size: 2rem; font-weight: 600; }
         .section__unit { font-size: initial; font-weight: initial; color: var(--color-text-muted); }
+    }
+
+    .page-header {
+        gap: calc(var(--spacing) * 2);
     }
 
     .links-header {
