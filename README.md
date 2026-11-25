@@ -73,7 +73,7 @@ npm run dev
 
 ### Running admin
 
-Web is hosted locally at http://localhost:8778/.
+Admin is hosted locally at http://localhost:8778/.
 
 ```bash
 cd admin
