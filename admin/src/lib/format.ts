@@ -30,7 +30,7 @@ export function makeDateRelativeLong(datetime?: string, capitalise?: boolean) {
 	}
 
 	const year1st = new Date(today.toISOString());
-	year1st.setMonth(1);
+	year1st.setMonth(0);
 	year1st.setDate(1);
 	if (value > year1st) {
 		const options: Intl.DateTimeFormatOptions = {
