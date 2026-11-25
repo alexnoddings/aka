@@ -46,28 +46,15 @@ export const load: PageServerLoad = async ({ platform, params }) => {
             LEFT JOIN redirect_events re ON re.campaign_link_id = cl.id
             WHERE cl.campaign_id = ?
             GROUP BY cl.id
-            ORDER BY cl.created_at
+            ORDER BY COALESCE(l.slug, ''), cl.created_at
         `)
         .bind(id)
         .all<CampaignLink>();
-    const links = campaignLinks.results!;
-    links.sort((a, b) => {
-        const aslug = a.linkSlug ?? '';
-        const bslug = b.linkSlug ?? '';
-
-        if (aslug < bslug)
-            return -1;
-
-        if (aslug > bslug)
-            return 1;
-
-        return 1;
-    });
 
     return {
         campaign,
         stats: stats ?? { dayHits: 0, monthHits: 0, totalHits: 0 },
-        campaignLinks: links
+        campaignLinks: campaignLinks.results!
     };
 };
 
