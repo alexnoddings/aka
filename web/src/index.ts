@@ -18,7 +18,8 @@ async function handleRequest(
 ): Promise<Response> {
     const { pathname } = new URL(request.url);
 
-    if (request.method !== 'GET') {
+    // GETs for users, HEADs from link previewers
+    if (request.method !== 'GET' && request.method !== 'HEAD') {
         return Response.json({ error: 'Method not allowed' }, { status: 405 });
     }
 
@@ -60,9 +61,12 @@ async function handleRedirectRequest(
         return new Response(null, { status: 404 });
     }
 
-    ctx.waitUntil(
-        recordRedirectEvent(request, env, resolved.linkId, resolved.campaignLinkId, request.url)
-    );
+    // Don't record link previewers
+    if (request.method === 'GET') {
+        ctx.waitUntil(
+            recordRedirectEvent(request, env, resolved.linkId, resolved.campaignLinkId, request.url)
+        );
+    }
 
     return Response.redirect(resolved.destinationUrl, 302);
 }
