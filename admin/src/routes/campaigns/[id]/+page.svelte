@@ -7,10 +7,19 @@
     import OcticonCheckCircleLg from '$/icons/OcticonCheckCircleLg.svelte';
     import OcticonXCircleLg from '$/icons/OcticonXCircleLg.svelte';
     import CopySlug from '$/components/CopySlug.svelte';
+    import ExportJsonDialog from '$/components/ExportJsonDialog.svelte';
     import { makeDateRelativeLong, makeDateRelativeShort } from '$lib/format.ts';
 
     interface Props { data: PageData; }
     let { data }: Props = $props();
+
+    let exportDialog: ExportJsonDialog | undefined = $state();
+    let exportJson = $derived.by(() => {
+        const entries = (data.campaignLinks ?? [])
+            .filter(cl => cl.isActive)
+            .map(cl => [cl.linkSlug ?? "", cl.slug] as const);
+        return JSON.stringify(Object.fromEntries(entries), null, 2);
+    });
 </script>
 
 <svelte:head>
@@ -66,6 +75,9 @@
         <div class="page-header links-header">
             <h2 class="page-title page-title--sm">Campaign links</h2>
             <span class="spacer"></span>
+            <button type="button" class="button button--secondary" onclick={() => exportDialog?.open()}>
+                Export JSON
+            </button>
             <a href="/campaigns/{data.campaign.id}/links/add" class="button button--primary">
                 <OcticonPlus />
                 Add links
@@ -131,6 +143,8 @@
             </div>
         {/if}
     </div>
+
+    <ExportJsonDialog bind:this={exportDialog} title="Export {data.campaign.name}" json={exportJson} />
 {/if}
 
 <style>
